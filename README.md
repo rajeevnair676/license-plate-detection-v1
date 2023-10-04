@@ -14,6 +14,13 @@ The data for training the ML model for the license plate detection was collected
 
 https://www.kaggle.com/datasets/rajeevnair676/yolo-license-roboflow
 
+### 2. Building the model
+The model was built with 2 approaches. Initially a model was trained to detect the cars in the images/videos, and train another model to segment the number plates from the car detection. The second approach was to train a license plate detection model directly on the images/videos. The best model of the 2 was chosen as the final model.
+
+Model Architecture:
+* A pretrained YOLOv8 model was used to train the license plate detection model as well as the car detection model
+
+![image](https://github.com/rajeevnair676/license-plate-detection-v1/assets/97514601/40ba5872-b933-4429-8b85-ff4677cd94f8)
 
 
 
