@@ -22,6 +22,7 @@ Model Architecture:
 
 ![image](https://github.com/rajeevnair676/license-plate-detection-v1/assets/97514601/40ba5872-b933-4429-8b85-ff4677cd94f8)
 
-
+### 3. Training the model
+The pretrained model was trained on the data from roboflow with around 10k data points onb training set and 2.5k on validation set. The training was done for 10 epochs, and the model weights were downloaded and saved. The model is saved in the folder 'Model\License_detection\best_licensedetect.pt'
 
 
