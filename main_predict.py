@@ -6,15 +6,16 @@ import time
 from paddleocr import PaddleOCR
 import matplotlib.pyplot as plt
 
-ocr = PaddleOCR(use_angle_cls=True,lang='en',verbose=False)
+# ocr = PaddleOCR(use_angle_cls=True,lang='en',verbose=False)
 
 CAR_MODEL_PATH = 'Model\\Car detection\\best.pt'
-PLATE_DETECT_PATH = 'Model\\License plate detection\\best_torch.pt'
+PLATE_DETECT_PATH = 'Models\\License plate detection\\best_torch.pt'
 INPUT_CAR_PATH = 'TEST\\Images\\'
 OUTPUT_CAR_PATH = 'ocr_input\\Car_detect_input'
-car_model = YOLO(CAR_MODEL_PATH)
+# car_model = YOLO(CAR_MODEL_PATH)
 plate_model = YOLO(PLATE_DETECT_PATH)
 OUT_PATH = 'ocr_input\\License_plates\\'
+IMAGE_PATH_1 = 'Sample1.jpg'
 
 
 def process_input(input_car_path):
@@ -124,6 +125,19 @@ def license_detect(input_plate_path,plate_model,output_path):
                     print(f"Cannot read the license plate {i}-{m}")
 
 
+def predict_new(license_model, input_car_path,image_path):
+    im_path = os.path.join(input_car_path,image_path)
+    image = Image.open(im_path)
+    result = license_model([image])
+    bbox = result[0].boxes.xyxy
+    res_plot = result[0].plot()
+    # imdis = cv2.imread(image_path)
+    # bbox_arr = bbox.cpu().numpy()
+    # roi = imdis[int(bbox_arr[1]):int(bbox_arr[3]), int(bbox_arr[0]):int(bbox_arr[2])]
+    cv2.imshow(f'Detect-{image_path}',res_plot)
+    cv2.waitKey(0)
+
+
 def predict(input_car_path,car_model,plate_model,output_path,OUT_PATH):
     image_batch,image_path = process_input(input_car_path)
     s_time = time.time()
@@ -193,9 +207,10 @@ def main():
     start_time = time.time()
     # total_images = detect_cars(INPUT_CAR_PATH,car_model,OUTPUT_CAR_PATH)
     # license_detect(OUTPUT_CAR_PATH,plate_model,OUT_PATH)
-    total_images = predict(INPUT_CAR_PATH,car_model,plate_model,OUTPUT_CAR_PATH,OUT_PATH)
-    end_time = time.time()
-    print(f"Total time taken to process {total_images} is {end_time-start_time} seconds")
+    # total_images = predict(INPUT_CAR_PATH,car_model,plate_model,OUTPUT_CAR_PATH,OUT_PATH)
+    # end_time = time.time()
+    predict_new(plate_model,INPUT_CAR_PATH,IMAGE_PATH_1)
+    # print(f"Total time taken to process {total_images} is {end_time-start_time} seconds")
 
 
 if __name__ == '__main__':
